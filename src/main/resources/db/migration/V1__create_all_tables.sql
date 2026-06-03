@@ -80,3 +80,19 @@ create table cart_items
         foreign key (menu_item_id) references menu_items (id)
 );
 
+create table orders
+(
+    id               bigint                                                                                  null
+        primary key,
+    customer_id      bigint                                                                                  null,
+    restaurant_id    bigint                                                                                  null,
+    status           enum ('PENDING', 'ACCEPTED', 'PREPARING', 'OUT_FOR_DELIVERY', 'DELIVERED', 'CANCELLED') not null,
+    total_price      decimal(10, 2)                                                                          not null,
+    delivery_address varchar(255)                                                                            not null,
+    created_at       timestamp default current_timestamp                                                     null,
+    constraint orders_customer__fk
+        foreign key (customer_id) references users (id),
+    constraint orders_restaurant__fk
+        foreign key (restaurant_id) references restaurants (id)
+);
+
