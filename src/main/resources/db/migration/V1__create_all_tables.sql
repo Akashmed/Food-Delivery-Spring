@@ -55,3 +55,15 @@ create table menu_items
         foreign key (restaurant_id) references restaurants (id)
 );
 
+create table carts
+(
+    id          bigint                              null
+        primary key,
+    customer_id bigint                              null,
+    created_at  timestamp default current_timestamp null,
+    constraint carts_uk
+        unique (customer_id),
+    constraint carts_users_id_fk
+        foreign key (customer_id) references users (id)
+);
+
