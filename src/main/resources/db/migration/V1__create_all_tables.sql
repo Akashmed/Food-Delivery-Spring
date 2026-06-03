@@ -38,3 +38,20 @@ create table categories
         unique (name)
 );
 
+create table menu_items
+(
+    id            bigint                              null
+        primary key,
+    name          varchar(150)                        not null,
+    description   text                                null,
+    price         decimal(10, 2)                      not null,
+    available     boolean   default true              null,
+    category_id   bigint                              null,
+    restaurant_id bigint                              null,
+    created_at    timestamp default current_timestamp null,
+    constraint menu_items_category__fk
+        foreign key (category_id) references categories (id),
+    constraint menu_items_restaurant__fk
+        foreign key (restaurant_id) references restaurants (id)
+);
+
