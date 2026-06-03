@@ -29,3 +29,12 @@ create table restaurants
 alter table restaurants
     modify name varchar(150) auto_increment;
 
+create table categories
+(
+    id   bigint       null
+        primary key,
+    name varchar(100) null,
+    constraint categories_uk_1
+        unique (name)
+);
+
