@@ -67,3 +67,16 @@ create table carts
         foreign key (customer_id) references users (id)
 );
 
+create table cart_items
+(
+    id           bigint null
+        primary key,
+    cart_id      bigint null,
+    menu_item_id bigint null,
+    quantity     int    not null,
+    constraint cart_items_cart__fk
+        foreign key (cart_id) references carts (id),
+    constraint cart_items_menu_item__fk
+        foreign key (menu_item_id) references menu_items (id)
+);
+
