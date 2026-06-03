@@ -110,3 +110,20 @@ create table order_items
         foreign key (order_id) references orders (id)
 );
 
+create table deliveries
+(
+    id            bigint                                      null
+        primary key,
+    order_id      bigint                                      null,
+    rider_id      bigint                                      null,
+    status        enum ('ASSIGNED', 'PICKED_UP', 'DELIVERED') null,
+    pickup_time   datetime                                    null,
+    delivery_time datetime                                    null,
+    constraint deliveries_uk
+        unique (order_id),
+    constraint deliveries_orders__fk
+        foreign key (order_id) references orders (id),
+    constraint deliveries_users__fk
+        foreign key (rider_id) references users (id)
+);
+
