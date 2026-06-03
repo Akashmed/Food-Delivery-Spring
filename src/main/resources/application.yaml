@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: Food Delivery
+  datasource:
+    url: jdbc:mysql://localhost:3306/foodDB?createDatabaseIfNotExist=true
+    username: root
+    password: admin
