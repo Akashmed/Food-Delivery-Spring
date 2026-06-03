@@ -126,4 +126,3 @@ create table deliveries
     constraint deliveries_users__fk
         foreign key (rider_id) references users (id)
 );
-
