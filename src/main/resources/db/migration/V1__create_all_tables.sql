@@ -96,3 +96,17 @@ create table orders
         foreign key (restaurant_id) references restaurants (id)
 );
 
+create table order_items
+(
+    id           bigint         null
+        primary key,
+    order_id     bigint         null,
+    menu_item_id bigint         null,
+    quantity     int            not null,
+    price        decimal(10, 2) not null,
+    constraint order_items_menu_items__fk
+        foreign key (menu_item_id) references menu_items (id),
+    constraint order_items_orders__fk
+        foreign key (order_id) references orders (id)
+);
+
