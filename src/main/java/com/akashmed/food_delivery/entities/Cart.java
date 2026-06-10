@@ -6,6 +6,8 @@ import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.time.Instant;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -23,5 +25,8 @@ public class Cart {
 
     @Column(name = "created_at")
     private Instant createdAt;
+
+    @OneToMany(mappedBy = "cart")
+    private Set<CartItem> cartItems = new LinkedHashSet<>();
 
 }
