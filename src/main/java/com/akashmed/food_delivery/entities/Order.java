@@ -11,30 +11,32 @@ import java.time.Instant;
 @Getter
 @Setter
 @Entity
-@Table(name = "orders", schema = "fooddb")
+@Table(name = "orders")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "customer_id")
     private User customer;
 
-    @ColumnDefault("'PENDING'")
-    @Lob
-    @Column(name = "status", nullable = false)
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
     private String status;
 
-    @Column(name = "total_price", nullable = false, precision = 10, scale = 2)
+    @Column(name = "total_price")
     private BigDecimal totalPrice;
 
-    @Column(name = "delivery_address", nullable = false)
+    @Column(name = "delivery_address")
     private String deliveryAddress;
 
-    @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "created_at")
     private Instant createdAt;
+
+    @ManyToOne
+    @JoinColumn(name = "restaurant_id")
+    private Restaurant restaurant;
 
 }
