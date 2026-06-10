@@ -7,6 +7,8 @@ import org.hibernate.annotations.ColumnDefault;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -36,5 +38,11 @@ public class Restaurant {
 
     @Column(name = "created_at")
     private Instant createdAt;
+
+    @OneToMany(mappedBy = "restaurant")
+    private Set<MenuItem> menuItems = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "restaurant")
+    private Set<Order> orders = new LinkedHashSet<>();
 
 }
