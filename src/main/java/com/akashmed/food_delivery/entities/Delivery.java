@@ -23,7 +23,7 @@ public class Delivery {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private String status;
+    private Status status;
 
     @Column(name = "pickup_time")
     private Instant pickupTime;
