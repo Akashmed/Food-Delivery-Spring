@@ -24,7 +24,7 @@ public class Order {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private String status;
+    private Status status;
 
     @Column(name = "total_price")
     private BigDecimal totalPrice;
