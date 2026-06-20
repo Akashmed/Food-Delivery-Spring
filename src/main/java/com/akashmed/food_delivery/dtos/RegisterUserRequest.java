@@ -3,6 +3,7 @@ package com.akashmed.food_delivery.dtos;
 import com.akashmed.food_delivery.validation.Lowercase;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
@@ -21,4 +22,8 @@ public class RegisterUserRequest {
     @NotBlank(message = "password is required")
     @Size(min = 6, max = 25, message = "password must be between 6 to 25 characters")
     private String password;
+
+    @NotBlank(message = "phone is required")
+    @Pattern(regexp = "^\\d{11}$", message = "phone must be exactly 11 digits")
+    private String phone;
 }
