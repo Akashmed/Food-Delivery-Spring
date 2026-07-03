@@ -1,6 +1,8 @@
 package com.akashmed.food_delivery.controllers;
 
+import com.akashmed.food_delivery.dtos.JwtResponse;
 import com.akashmed.food_delivery.dtos.LoginUserRequest;
+import com.akashmed.food_delivery.services.JwtService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,9 +18,10 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
+    private final JwtService jwtService;
 
     @PostMapping("/login")
-    public ResponseEntity<Void> login(
+    public ResponseEntity<JwtResponse> login(
             @Valid @RequestBody LoginUserRequest request
             ){
 
@@ -29,7 +32,15 @@ public class AuthController {
                 )
         );
 
-        return ResponseEntity.ok().build();
+        var token = jwtService.generateToken(request.getEmail());
+
+        return ResponseEntity.ok(new JwtResponse(token));
+    }
+
+    @PostMapping("/validate")
+    public boolean validate(@RequestHeader("Authorization") String authHeader){
+        var token = authHeader.replace("Bearer ", "");
+        return jwtService.validateToken(token);
     }
 
     @ExceptionHandler(BadCredentialsException.class)
