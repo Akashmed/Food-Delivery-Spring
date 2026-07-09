@@ -6,6 +6,8 @@ import com.akashmed.food_delivery.dtos.UserDto;
 import com.akashmed.food_delivery.mappers.UserMapper;
 import com.akashmed.food_delivery.repositories.UserRepository;
 import com.akashmed.food_delivery.services.JwtService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -28,7 +30,8 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<JwtResponse> login(
-            @Valid @RequestBody LoginUserRequest request
+            @Valid @RequestBody LoginUserRequest request,
+            HttpServletResponse response
     ) {
 
         authenticationManager.authenticate(
@@ -40,9 +43,17 @@ public class AuthController {
 
         var user = userRepository.findByEmail(request.getEmail()).orElseThrow();
 
-        var token = jwtService.generateToken(user);
+        var accessToken = jwtService.generateAcessToken(user);
+        var refreshToken = jwtService.generateRefreshToken(user);
 
-        return ResponseEntity.ok(new JwtResponse(token));
+        var cookie = new Cookie("refreshToken", refreshToken);
+        cookie.setHttpOnly(true);
+        cookie.setPath("/auth/refresh");
+        cookie.setMaxAge(604800); //7d
+        cookie.setSecure(true);
+        response.addCookie(cookie); // prevents the refresh token access through javascript
+
+        return ResponseEntity.ok(new JwtResponse(accessToken));
     }
 
     @PostMapping("/validate")
