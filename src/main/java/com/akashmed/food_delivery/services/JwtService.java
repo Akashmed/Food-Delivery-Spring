@@ -1,6 +1,7 @@
 package com.akashmed.food_delivery.services;
 
 import com.akashmed.food_delivery.config.JwtConfig;
+import com.akashmed.food_delivery.entities.Role;
 import com.akashmed.food_delivery.entities.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
@@ -58,5 +59,9 @@ public class JwtService {
 
     public Long getUserIdFromToken(String token){
         return Long.valueOf(getClaims(token).getSubject());
+    }
+
+    public Role getUserRoleFromToken(String token){
+        return Role.valueOf(getClaims(token).get("role").toString());
     }
 }
