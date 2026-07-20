@@ -1,5 +1,6 @@
 package com.akashmed.food_delivery.controllers;
 
+import com.akashmed.food_delivery.config.JwtConfig;
 import com.akashmed.food_delivery.dtos.JwtResponse;
 import com.akashmed.food_delivery.dtos.LoginUserRequest;
 import com.akashmed.food_delivery.dtos.UserDto;
@@ -27,6 +28,7 @@ public class AuthController {
     private final JwtService jwtService;
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final JwtConfig jwtConfig;
 
     @PostMapping("/login")
     public ResponseEntity<JwtResponse> login(
@@ -49,9 +51,9 @@ public class AuthController {
         var cookie = new Cookie("refreshToken", refreshToken);
         cookie.setHttpOnly(true);
         cookie.setPath("/auth/refresh");
-        cookie.setMaxAge(604800); //7d
+        cookie.setMaxAge(jwtConfig.getRefreshTokenExpiration()); //7d
         cookie.setSecure(true);
-        response.addCookie(cookie); // prevents the refresh token access through javascript
+        response.addCookie(cookie); // prevents the refresh token access through JavaScript
 
         return ResponseEntity.ok(new JwtResponse(accessToken));
     }
